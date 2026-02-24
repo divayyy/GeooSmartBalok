@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login | GeoSMART</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#0f172a,#020617);
+  color:white;
+  font-family:'Poppins',sans-serif;
+}
+
+.auth-card{
+  background:rgba(255,255,255,.1);
+  backdrop-filter:blur(14px);
+  padding:40px;
+  width:380px;
+  border-radius:20px;
+  box-shadow:0 0 30px rgba(56,189,248,.35);
+}
+
+.auth-card h3{text-align:center;margin-bottom:25px;}
+.auth-card input{border-radius:12px;}
+.auth-card button{border-radius:30px;font-weight:600;}
+
+.switch{text-align:center;margin-top:15px;cursor:pointer;color:#38bdf8;}
+</style>
+</head>
+
+<body>
+
+<div class="auth-card">
+  <h3 id="title">Login GeoSMART</h3>
+
+  <form id="formLogin" onsubmit="login(event)">
+    <input class="form-control mb-3" placeholder="Nama Pengguna" id="user" required>
+    <input class="form-control mb-3" placeholder="Password" type="password" id="pass" required>
+    <button class="btn btn-info w-100">Masuk</button>
+  </form>
+
+  <form id="formDaftar" onsubmit="daftar(event)" style="display:none">
+    <input class="form-control mb-3" placeholder="Nama Pengguna" id="newUser" required>
+    <input class="form-control mb-3" placeholder="Password" type="password" id="newPass" required>
+    <button class="btn btn-success w-100">Daftar</button>
+  </form>
+
+  <div class="switch" onclick="toggleForm()">Belum punya akun? Daftar</div>
+</div>
+
+<script>
+function toggleForm(){
+  let login=document.getElementById("formLogin");
+  let daftar=document.getElementById("formDaftar");
+  let title=document.getElementById("title");
+  let text=document.querySelector(".switch");
+
+  if(login.style.display=="none"){
+    login.style.display="block";
+    daftar.style.display="none";
+    title.innerText="Login GeoSMART";
+    text.innerText="Belum punya akun? Daftar";
+  }else{
+    login.style.display="none";
+    daftar.style.display="block";
+    title.innerText="Daftar Akun GeoSMART";
+    text.innerText="Sudah punya akun? Login";
+  }
+}
+
+function daftar(e){
+  e.preventDefault();
+  let u=document.getElementById("newUser").value;
+  let p=document.getElementById("newPass").value;
+
+  localStorage.setItem("akun", JSON.stringify({user:u, pass:p}));
+  alert("Pendaftaran berhasil!");
+  toggleForm();
+}
+
+function login(e){
+  e.preventDefault();
+  let u=document.getElementById("user").value;
+  let p=document.getElementById("pass").value;
+
+  let akun=JSON.parse(localStorage.getItem("akun"));
+
+  if(!akun || akun.user!==u || akun.pass!==p){
+    alert("Login gagal!");
+    return;
+  }
+
+  localStorage.setItem("login", u);
+  location.href="index.html";
+}
+</script>
+
+</body>
+</html>

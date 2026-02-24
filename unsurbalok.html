@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kubus Interaktif | GeoSMART</title>
+
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+<style>
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:'Segoe UI',Tahoma,Verdana,sans-serif;
+  background:#0f172a;
+  color:#e5e7eb;
+  overflow-x:hidden;
+}
+
+/* HEADER */
+header{
+  background:linear-gradient(135deg,#2563eb,#06b6d4);
+  padding:12px 14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+header h1{margin:0;font-size:18px}
+.back-btn{
+  background:#020617;
+  padding:6px 12px;
+  border-radius:10px;
+  color:white;
+  text-decoration:none;
+  font-weight:600;
+}
+
+/* CONTAINER */
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:18px 12px;
+}
+
+/* SECTION */
+.section{
+  background:#1e293b;
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:28px;
+}
+
+/* MODEL VIEWER */
+.viewer-box{
+  background:#020617;
+  border-radius:14px;
+  padding:8px;
+}
+model-viewer{
+  width:100%;
+  height:420px;
+  border-radius:12px;
+}
+
+/* TAB MENU */
+.tab-menu{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:12px;
+}
+.tab-menu button{
+  background:#020617;
+  color:#38bdf8;
+  border:1px solid #38bdf8;
+  padding:8px 14px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+}
+.tab-menu button.active{
+  background:#38bdf8;
+  color:#020617;
+}
+
+/* TAB CONTENT */
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+/* GEOGEBRA */
+.geo-box{
+  background:#020617;
+  border-radius:14px;
+  padding:8px;
+  overflow:hidden;
+}
+
+/* RESPONSIVE IFRAME */
+.iframe-wrapper{
+  position:relative;
+  width:100%;
+  padding-bottom:56.25%;
+}
+.iframe-wrapper iframe{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  border:0;
+  border-radius:12px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  model-viewer{height:300px;}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a href="Kubus.html" class="back-btn">⬅ Kembali</a>
+  <h1>🧊 Kubus Interaktif</h1>
+</header>
+
+<div class="container">
+
+<!-- ===== 3D BLENDER ===== -->
+<div class="section">
+  <h2>Visualisasi Kubus 3D</h2>
+  <div class="viewer-box">
+    <model-viewer 
+      src="assets/images/bangunruang/balok.glb"
+      camera-controls
+      auto-rotate>
+    </model-viewer>
+  </div>
+</div>
+
+<!-- ===== GEOGEBRA ===== -->
+<div class="section">
+  <h2>Eksplorasi Unsur Kubus</h2>
+
+  <div class="tab-menu">
+    <button class="active" onclick="openTab(this,'sisi')">Sisi</button>
+    <button onclick="openTab(this,'rusuk')">Rusuk</button>
+    <button onclick="openTab(this,'bidang1')">Diagonal Bidang</button>
+    <button onclick="openTab(this,'ruang')">Diagonal Ruang</button>
+    <button onclick="openTab(this,'bidang2')">Bidang Diagonal</button>
+    <button onclick="openTab(this,'jaring')">Jaring-Jaring</button>
+  
+  </div>
+
+  <div class="geo-box">
+
+    <!-- SISI -->
+    <div id="sisi" class="tab-content active">
+      <div class="iframe-wrapper">
+        <iframe src="https://www.geogebra.org/material/iframe/id/qcydmc6w/width/1280/height/720/rc/false/ai/false/sdz/false/smb/false/stb/false/stbh/false/ld/false/sri/false"></iframe>
+      </div>
+    </div>
+
+    <!-- RUSUK -->
+    <div id="rusuk" class="tab-content">
+      <div class="iframe-wrapper">
+        <iframe src="https://www.geogebra.org/material/iframe/id/mmz3uhgw/width/1280/height/720/rc/false/ai/false/sdz/false/smb/false/stb/false/stbh/false/ld/false/sri/false"></iframe>
+      </div>
+    </div>
+
+    <!-- DIAGONAL BIDANG -->
+    <div id="bidang1" class="tab-content">
+      <div class="iframe-wrapper">
+        <iframe src="https://www.geogebra.org/material/iframe/id/h9v25zzn/width/1280/height/720/rc/false/ai/false/sdz/false/smb/false/stb/false/stbh/false/ld/false/sri/false"></iframe>
+      </div>
+    </div>
+
+    <!-- DIAGONAL RUANG -->
+    <div id="ruang" class="tab-content">
+      <div class="iframe-wrapper">
+        <iframe src="https://www.geogebra.org/material/iframe/id/mzv6nwtc/width/1280/height/720/rc/false/ai/false/sdz/false/smb/false/stb/false/stbh/false/ld/false/sri/false"></iframe>
+      </div>
+    </div>
+    
+  <div id="bidang2" class="tab-content">
+    <div class="iframe-wrapper">
+    <iframe 
+      src="https://www.geogebra.org/material/iframe/id/zsshstnw/width/1280/height/720/rc/false/ai/false/sdz/false/smb/false/stb/false/stbh/false/ld/false/sri/false">
+    </iframe>
+  </div>
+</div>
+
+    <!-- JARING-JARING -->
+    <div id="jaring" class="tab-content">
+      <div class="iframe-wrapper">
+        <iframe src="https://www.geogebra.org/material/iframe/id/rbfjuv72/width/1280/height/720/rc/false/ai/false/sdz/false/smb/false/stb/false/stbh/false/ld/false/sri/false"></iframe>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+<script>
+function openTab(btn,id){
+  document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.tab-menu button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+
+</body>
+</html>
