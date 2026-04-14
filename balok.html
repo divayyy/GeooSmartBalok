@@ -3,35 +3,59 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GeoSMART | Dashboard Kubus</title>
+<title>GeoSMART | Dashboard</title>
+
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-*{font-family:'Segoe UI',sans-serif}
+*{box-sizing:border-box;font-family:'Segoe UI',Tahoma,Verdana,sans-serif}
 
 body{
 margin:0;
-background:
-linear-gradient(rgba(15,23,42,.7),rgba(15,23,42,.7)),
-url('assets/images/background1.png') center/cover no-repeat fixed;
-color:white;
+background:linear-gradient(rgba(15,23,42,.88),rgba(15,23,42,.88)),
+url('assets/images/background1.png') center/cover fixed;
+color:#e5e7eb;
 overflow-x:hidden;
 }
 
 /* NAVBAR */
 .navbar{
-background:rgba(0,0,0,.4);
+background:rgba(0,0,0,.55);
 backdrop-filter:blur(8px);
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:10px;
+font-weight:800;
+font-size:20px;
+color:#38bdf8;
+text-decoration:none;
+}
+
+/* TOMBOL BACK */
+.btn-back {
+    color: #38bdf8;
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    border-radius: 10px;
+    background: rgba(56, 189, 248, 0.1);
+    transition: 0.3s;
+    border: 1px solid rgba(56, 189, 248, 0.3);
 }
 
 /* HERO */
 .hero{
 min-height:100vh;
-display:flex;
-align-items:center;
-padding:80px 20px;
+padding:70px 15px 40px;
 }
 
 /* TITLE */
@@ -40,118 +64,430 @@ font-size:3rem;
 font-weight:800;
 }
 
-.hero p{
-max-width:680px;
-opacity:.9;
+/* SECTION */
+.section{
+background:rgba(30,41,59,.9);
+border-radius:18px;
+padding:22px;
+margin-bottom:30px;
+box-shadow:0 12px 25px rgba(0,0,0,.4);
 }
 
-/* GRID */
-.menu-grid{
-margin-top:50px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:28px;
+/* 3D */
+.viewer-box{
+background:#020617;
+border-radius:16px;
+padding:10px;
+}
+model-viewer{
+width:100%;
+height:420px;
+border-radius:14px;
 }
 
-/* CARD */
-.edu-card{
-background:rgba(255,255,255,.15);
-color:#fff;
-padding:32px 22px;
-border-radius:22px;
-text-align:center;
-cursor:pointer;
-transition:.35s;
-}
-
-.edu-card:hover{
-transform:translateY(-10px) scale(1.04);
-background:rgba(255,255,255,.25);
-}
-
-.edu-card i{
-font-size:50px;
+/* TAB MENU */
+.tab-menu{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
 margin-bottom:14px;
 }
 
-.edu-card h5{font-weight:700}
+.tab-menu button{
+background:#020617;
+color:#38bdf8;
+border:1px solid #38bdf8;
+padding:8px 16px;
+border-radius:12px;
+cursor:pointer;
+font-weight:600;
+transition:.3s;
+}
+
+.tab-menu button:hover,
+.tab-menu button.active{
+background:#38bdf8;
+color:#020617;
+}
+
+/* CONTENT */
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* GEOGEBRA */
+.geo-box{
+background:#020617;
+border-radius:16px;
+padding:10px;
+}
+
+.iframe-wrapper{
+position:relative;
+width:100%;
+padding-bottom:56.25%;
+}
+
+.iframe-wrapper iframe{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+border:0;
+border-radius:14px;
+}
 
 /* MOBILE */
 @media(max-width:768px){
 .hero h1{font-size:2.2rem}
+model-viewer{height:300px}
 }
 </style>
 </head>
 
 <body>
 
-<nav class="navbar navbar-expand-lg">
-<div class="container">
-<img src="assets/images/geosmart.png" height="40">
-
-<div class="dropdown">
-<button class="btn btn-light rounded-circle" data-bs-toggle="dropdown">
-<i class="fas fa-user"></i>
-</button>
-
-<ul class="dropdown-menu dropdown-menu-end">
-<li class="dropdown-header">Halo, <span id="nama"></span></li>
-<li><hr></li>
-<li><a class="dropdown-item text-danger" onclick="logout()">Logout</a></li>
-</ul>
-</div>
+<!-- NAVBAR -->
+<nav class="navbar fixed-top">
+<div class="container d-flex justify-content-between align-items-center">
+  <a class="brand" href="#">
+    <img src="assets/images/geosmart.png" height="42">
+    GeoSMART
+  </a>
+  <a href="dashboard.html" class="btn-back">
+    <i class="fa-solid fa-arrow-left"></i>
+    <span>Dashboard</span>
+  </a>
 </div>
 </nav>
+
 
 <section class="hero">
 <div class="container">
 
-<small class="text-uppercase fw-bold text-warning">Dashboard Materi</small>
-<h1 class="mt-2">Bangun Ruang — Balok</h1>
+<small class="text-uppercase fw-bold text-warning">Hello Students</small>
+<h1 class="mt-2">WELCOME TO GeoSMART</h1>
 
 <p class="mt-3">
-Pilih menu pembelajaran kubus di bawah untuk memahami konsep, melihat animasi,
-dan mengerjakan latihan soal secara interaktif.
+Media pembelajaran geometri berbasis web interaktif 
+dengan visualisasi 3D dan animasi jaring-jaring.
 </p>
 
-<div class="menu-grid">
+<!-- INFO BALOK -->
+<div class="geo-box mb-3">
+  <h4 class="text-warning mb-2">
+    <i class="fa-solid fa-cube"></i> Pengertian Balok
+  </h4>
 
-<div class="edu-card" onclick="location.href='unsurkubus.html'">
-<i class="fas fa-book text-info"></i>
-<h5>Materi Balok</h5>
-<p>Unsur, jaring-jaring, rumus & visualisasi 3D</p>
+  <p style="text-align:justify">
+    <b>Balok</b> adalah bangun ruang tiga dimensi yang dibatasi oleh 
+    <b>6 sisi berbentuk persegi panjang</b>, memiliki 
+    <b>12 rusuk</b>, dan <b>8 titik sudut</b>. 
+    Setiap pasangan sisi yang berhadapan memiliki ukuran dan bentuk yang sama.
+  </p>
+
+  <h5 class="text-info mt-3">Contoh Balok dalam Kehidupan Sehari-hari:</h5>
+  <ul>
+    <li>Kardus kemasan</li>
+    <li>Akuarium</li>
+    <li>Lemari</li>
+    <li>Kotak sepatu</li>
+    <li>Kulkas</li>
+  </ul>
+</div>
+<div class="section mt-4 border border-warning">
+    <h2 class="text-warning"><i class="fa-solid fa-calculator"></i> Rumus & Perhitungan Balok</h2>
+    <p>Gunakan rumus berikut untuk menghitung dimensi fisis pada balok:</p>
+    
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="geo-box text-center h-100 border border-info">
+                <h5 class="text-info">Volume (V)</h5>
+                <div class="py-3">
+                    <span class="fs-3 fw-bold text-white">V = p × l × t</span>
+                </div>
+                <p class="small text-secondary">Menghitung kapasitas atau isi ruang balok.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="geo-box text-center h-100 border border-info">
+                <h5 class="text-info">Luas Permukaan (L)</h5>
+                <div class="py-3">
+                    <span class="fs-4 fw-bold text-white">L = 2 × (pl + pt + lt)</span>
+                </div>
+                <p class="small text-secondary">Menghitung total luas seluruh sisi luar.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="geo-box text-center h-100 border border-info">
+                <h5 class="text-info">Panjang Rusuk (K)</h5>
+                <div class="py-3">
+                    <span class="fs-3 fw-bold text-white">K = 4 × (p + l + t)</span>
+                </div>
+                <p class="small text-secondary">Menghitung total panjang kawat kerangka.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4 p-3 rounded-3" style="background: rgba(0,0,0,0.3); border-left: 4px solid #ffc107;">
+        <div class="row align-items-center">
+            <div class="col-md-7">
+                <span class="fw-bold text-warning">Diagonal Ruang:</span> 
+                <code class="text-white ms-2" style="font-size: 1.1rem;">d = √(p² + l² + t²)</code>
+            </div>
+            <div class="col-md-5 text-md-end mt-2 mt-md-0">
+                <small class="text-info"><b>p</b>: panjang | <b>l</b>: lebar | <b>t</b>: tinggi</small>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ===== 3D + KONTEKSTUAL ===== -->
+<div class="section mt-4">
+<h2 class="text-info">Visualisasi Balok 3D & Contoh Kontekstual</h2>
+
+<div class="row g-3">
+
+<!-- GAMBAR KONTEKSTUAL -->
+<div class="col-lg-6">
+  <div class="geo-box text-center h-100 d-flex flex-column justify-content-center">
+    <h5 class="text-warning mb-3">Contoh Balok dalam Kehidupan Sehari-hari</h5>
+    <img src="assets/images/lemari.png" class="img-fluid rounded mb-2">
+    <!-- Hanya satu gambar utama -->
+  </div>
 </div>
 
-<div class="edu-card" onclick="location.href='video-kubus.html'">
-<i class="fas fa-play-circle text-danger"></i>
-<h5>Video Pembelajaran</h5>
-<p>Animasi & penjelasan visual interaktif</p>
-</div>
+  <!-- GEOGEBRA 3D -->
+  <div class="col-lg-6">
+    <div class="geo-box">
+      <div class="iframe-wrapper">
+        <iframe 
+          src="https://www.geogebra.org/material/iframe/id/fjbpr354/width/1280/height/720/rc/false/ai/false">
+        </iframe>
+      </div>
+    </div>
+  </div>
 
-<div class="edu-card" onclick="location.href='soalkubus.html'">
-<i class="fas fa-pen text-warning"></i>
-<h5>Latihan Soal</h5>
-<p>Soal interaktif + pembahasan otomatis</p>
 </div>
+</div>
+<!-- ===== GEOGEBRA ===== -->
+<div class="section">
+  <h2>Eksplorasi Unsur Kubus</h2>
 
-</div>
+  <div class="tab-menu">
+    <button class="active" onclick="openTab(this,'sisi')">Sisi</button>
+    <button onclick="openTab(this,'rusuk')">Rusuk</button>
+    <button onclick="openTab(this,'bidang1')">Diagonal Bidang</button>
+    <button onclick="openTab(this,'ruang')">Diagonal Ruang</button>
+    <button onclick="openTab(this,'bidang2')">Bidang Diagonal</button>
+    <button onclick="openTab(this,'jaring')">Jaring-Jaring</button>
+  
+  </div>
+
+        <div class="geo-box">
+            <div id="sisi" class="tab-content active">
+                <div class="iframe-wrapper mb-3">
+                    <iframe src="https://www.geogebra.org/material/iframe/id/qcydmc6w/width/1280/height/720/rc/false/ai/false"></iframe>
+                </div>
+                <h5 class="text-warning">🧠 Aktivitas 1: Analisis Sisi</h5>
+                <p>Setelah mengamati gambar di atas, menurut Anda apa yang dimaksud dengan sisi balok?</p>
+                <textarea class="form-control bg-dark text-white border-info mb-3" placeholder="Ketik jawabanmu di sini..."></textarea>
+                
+                <h5 class="text-warning">✍️ Aktivitas 2: Pilihan Ganda</h5>
+                <p>Berapakah jumlah bidang sisi yang membatasi sebuah balok?</p>
+                <button class="btn btn-outline-info opt-btn" onclick="cekEksplorasi('sisi', '6 Sisi', this)">4 Sisi</button>
+                <button class="btn btn-outline-info opt-btn" onclick="cekEksplorasi('sisi', '6 Sisi', this)">6 Sisi</button>
+                <button class="btn btn-outline-info opt-btn" onclick="cekEksplorasi('sisi', '6 Sisi', this)">8 Sisi</button>
+                <div id="res-sisi" class="mt-2 fw-bold"></div>
+            </div>
+
+            <div id="rusuk" class="tab-content">
+                <div class="iframe-wrapper mb-3">
+                    <iframe src="https://www.geogebra.org/material/iframe/id/mmz3uhgw/width/1280/height/720/rc/false/ai/false"></iframe>
+                </div>
+                <h5 class="text-warning">🧠 Aktivitas 1: Analisis Rusuk</h5>
+                <p>Apa perbedaan antara rusuk dengan sisi menurut pengamatanmu?</p>
+                <textarea class="form-control bg-dark text-white border-info mb-3" placeholder="Ketik jawabanmu di sini..."></textarea>
+                
+                <h5 class="text-warning">✍️ Aktivitas 2: Pilihan Ganda</h5>
+                <p>Berapakah total seluruh rusuk (garis kerangka) pada balok?</p>
+                <button class="btn btn-outline-info opt-btn" onclick="cekEksplorasi('rusuk', '12 Rusuk', this)">8 Rusuk</button>
+                <button class="btn btn-outline-info opt-btn" onclick="cekEksplorasi('rusuk', '12 Rusuk', this)">10 Rusuk</button>
+                <button class="btn btn-outline-info opt-btn" onclick="cekEksplorasi('rusuk', '12 Rusuk', this)">12 Rusuk</button>
+                <div id="res-rusuk" class="mt-2 fw-bold"></div>
+            </div>
+
+            <div id="bidang1" class="tab-content">
+                <div class="iframe-wrapper mb-3">
+                    <iframe src="https://www.geogebra.org/material/iframe/id/h9v25zzn/width/1280/height/720/rc/false/ai/false"></iframe>
+                </div>
+                <h5 class="text-warning">🧠 Aktivitas 1: Analisis Diagonal Bidang</h5>
+                <p>Jelaskan di mana letak garis diagonal bidang pada sebuah sisi balok!</p>
+                <textarea class="form-control bg-dark text-white border-info mb-3" placeholder="Ketik jawabanmu di sini..."></textarea>
+                
+                <h5 class="text-warning">✍️ Aktivitas 2: Pilihan Ganda</h5>
+                <p>Jika setiap sisi memiliki 2 diagonal bidang, berapa total diagonal bidang pada 6 sisi balok?</p>
+                <button class="btn btn-outline-info opt-btn" onclick="cekEksplorasi('db', '12 Diagonal', this)">6 Diagonal</button>
+                <button class="btn btn-outline-info opt-btn" onclick="cekEksplorasi('db', '12 Diagonal', this)">12 Diagonal</button>
+                <button class="btn btn-outline-info opt-btn" onclick="cekEksplorasi('db', '12 Diagonal', this)">24 Diagonal</button>
+                <div id="res-db" class="mt-2 fw-bold"></div>
+            </div>
+
+            <div id="ruang" class="tab-content">
+                <div class="iframe-wrapper mb-3">
+                    <iframe src="https://www.geogebra.org/material/iframe/id/mzv6nwtc/width/1280/height/720/rc/false/ai/false"></iframe>
+                </div>
+                <h5 class="text-warning">🧠 Aktivitas 1: Analisis Diagonal Ruang</h5>
+                <p>Apa yang dimaksud dengan garis diagonal ruang?</p>
+                <textarea class="form-control bg-dark text-white border-info mb-3" placeholder="Ketik jawabanmu di sini..."></textarea>
+                
+                <h5 class="text-warning">✍️ Aktivitas 2: Pilihan Ganda</h5>
+                <p>Berapakah jumlah garis diagonal ruang yang menembus bagian dalam balok?</p>
+                <button class="btn btn-outline-info opt-btn" onclick="cekEksplorasi('dr', '4 Garis', this)">2 Garis</button>
+                <button class="btn btn-outline-info opt-btn" onclick="cekEksplorasi('dr', '4 Garis', this)">4 Garis</button>
+                <button class="btn btn-outline-info opt-btn" onclick="cekEksplorasi('dr', '4 Garis', this)">8 Garis</button>
+                <div id="res-dr" class="mt-2 fw-bold"></div>
+            </div>
+
+            <div id="bidang2" class="tab-content">
+                <div class="iframe-wrapper mb-3">
+                    <iframe src="https://www.geogebra.org/material/iframe/id/zsshstnw/width/1280/height/720/rc/false/ai/false"></iframe>
+                </div>
+                <h5 class="text-warning">🧠 Aktivitas 1: Analisis Bidang Diagonal</h5>
+                <p>Menurutmu, mengapa bidang ini disebut bidang diagonal?</p>
+                <textarea class="form-control bg-dark text-white border-info mb-3" placeholder="Ketik jawabanmu di sini..."></textarea>
+                
+                <h5 class="text-warning">✍️ Aktivitas 2: Pilihan Ganda</h5>
+                <p>Berapakah jumlah bidang diagonal yang dimiliki oleh balok?</p>
+                <button class="btn btn-outline-info opt-btn" onclick="cekEksplorasi('bd2', '6 Bidang', this)">4 Bidang</button>
+                <button class="btn btn-outline-info opt-btn" onclick="cekEksplorasi('bd2', '6 Bidang', this)">6 Bidang</button>
+                <button class="btn btn-outline-info opt-btn" onclick="cekEksplorasi('bd2', '6 Bidang', this)">12 Bidang</button>
+                <div id="res-bd2" class="mt-2 fw-bold"></div>
+            </div>
+
+           <div id="jaring" class="tab-content">
+               <div class="iframe-wrapper mb-3">
+                   <iframe src="https://www.geogebra.org/material/iframe/id/rbfjuv72/width/1280/height/720/rc/false/ai/false"></iframe>
+             </div>
+
+         <div class="alert alert-info bg-dark text-info border-info mb-3">
+            <h6 class="fw-bold"><i class="fa-solid fa-hand-pointer"></i> INSTRUKSI INTERAKTIF:</h6>
+                <ul class="small mb-0">
+                  <li><b>Geser Slider:</b> Gunakan titik cokelat pada garis (p, l, t) untuk mengatur Panjang, Lebar, dan Tinggi balok.</li>
+                  <li><b>Animasi:</b> Geser slider "j" untuk melihat bagaimana jaring-jaring terbuka dan tertutup menjadi balok.</li>
+                </ul>
+         </div>
+
+                <h5 class="text-warning">🧩 Aktivitas Logika 1: Posisi Sisi</h5>
+                <p>Jika sisi <b>EFGH</b> (bagian atas) dijadikan <b>ALAS</b>, manakah sisi yang akan menjadi <b>PENUTUP (ATAS)</b>?</p>
+                <button class="btn btn-outline-warning opt-btn" onclick="cekEksplorasi('jr1', 'ABCD', this)">ABCD</button>
+                <button class="btn btn-outline-warning opt-btn" onclick="cekEksplorasi('jr1', 'ABCD', this)">ABFE</button>
+                <button class="btn btn-outline-warning opt-btn" onclick="cekEksplorasi('jr1', 'ABCD', this)">BCFG</button>
+                <div id="res-jr1" class="mt-2 fw-bold"></div>
+
+                <h5 class="text-warning mt-3">🧩 Aktivitas Logika 2: Sisi Samping</h5>
+                <p>Jika <b>ABCD</b> adalah <b>ALAS</b> dan <b>ABFE</b> adalah sisi <b>DEPAN</b>, mana yang menjadi sisi <b>BELAKANG</b>?</p>
+                <button class="btn btn-outline-warning opt-btn" onclick="cekEksplorasi('jr2', 'CDHG', this)">CDHG</button>
+                <button class="btn btn-outline-warning opt-btn" onclick="cekEksplorasi('jr2', 'CDHG', this)">ADEH</button>
+                <button class="btn btn-outline-warning opt-btn" onclick="cekEksplorasi('jr2', 'CDHG', this)">BCFG</button>
+                <div id="res-jr2" class="mt-2 fw-bold"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GEO-GAME ZONE -->
+    <div class="section border border-info">
+      <h2 class="text-info"><i class="fa-solid fa-gamepad"></i> Geo-Game Zone</h2>
+      <p>Uji logikamu dengan tantangan yang lebih seru di bawah ini!</p>
+
+  <!-- Soal 1 -->
+      <div class="geo-box mb-4">
+        <h5 class="text-warning">1. Kamu ingin membuat kerangka balok dari kawat. Jika kawatmu hanya cukup untuk membuat 8 garis, apakah kerangka balokmu akan jadi sempurna?</h5>
+        <button class="btn btn-primary m-1" onclick="cekGame('g1', 'salah', this)">Ya, sudah cukup</button>
+        <button class="btn btn-primary m-1" onclick="cekGame('g1', 'benar', this)">Tidak, butuh 12 kawat</button>
+        <div id="game-g1" class="mt-2 fw-bold"></div>
+      </div>
+
+  <!-- Soal 2 -->
+  <div class="geo-box mb-4">
+    <h5 class="text-warning">2. Bayangkan kamu sedang berada di dalam ruangan berbentuk balok. Kamu menarik tali dari pojok lantai depan ke pojok langit-langit belakang. Tali itu disebut...</h5>
+    <button class="btn btn-primary m-1" onclick="cekGame('g2', 'salah', this)">Diagonal Bidang</button>
+    <button class="btn btn-primary m-1" onclick="cekGame('g2', 'benar', this)">Diagonal Ruang</button>
+    <div id="game-g2" class="mt-2 fw-bold"></div>
+  </div>
+
+  <!-- Soal 3 -->
+  <div class="geo-box mb-4">
+    <h5 class="text-warning">3. Sebuah akuarium berbentuk balok bocor di semua pertemuan antar sisinya. Ada berapa banyak garis kebocoran yang harus kamu tambal?</h5>
+    <button class="btn btn-primary m-1" onclick="cekGame('g3', 'salah', this)">6 Garis</button>
+    <button class="btn btn-primary m-1" onclick="cekGame('g3', 'benar', this)">12 Garis</button>
+    <button class="btn btn-primary m-1" onclick="cekGame('g3', 'salah', this)">8 Garis</button>
+    <div id="game-g3" class="mt-2 fw-bold"></div>
+  </div>
+
+  <!-- Soal 4 -->
+  <div class="geo-box mb-4">
+    <h5 class="text-warning">4. Jika kamu membongkar kardus sepatu dan merebahkannya di lantai, kumpulan potongan persegi panjang yang masih menyambung itu disebut...</h5>
+    <button class="btn btn-primary m-1" onclick="cekGame('g4', 'salah', this)">Bidang Diagonal</button>
+    <button class="btn btn-primary m-1" onclick="cekGame('g4', 'benar', this)">Jaring-jaring</button>
+    <div id="game-g4" class="mt-2 fw-bold"></div>
+  </div>
+
+  <!-- Soal 5 -->
+  <div class="geo-box mb-4">
+    <h5 class="text-warning">5. Manakah yang jumlahnya sama dengan jumlah jari di dua tanganmu ditambah dua? (Total 12)</h5>
+    <button class="btn btn-primary m-1" onclick="cekGame('g5', 'benar', this)">Jumlah Rusuk Balok</button>
+    <button class="btn btn-primary m-1" onclick="cekGame('g5', 'salah', this)">Jumlah Titik Sudut</button>
+    <div id="game-g5" class="mt-2 fw-bold"></div>
+  </div>
+
+  <!-- Soal 6 -->
+  <div class="geo-box mb-4">
+    <h5 class="text-warning">6. Jika sebuah balok memiliki 6 sisi, 12 rusuk, dan 8 titik sudut, berapakah jumlah diagonal ruang pada balok tersebut?</h5>
+    <button class="btn btn-primary m-1" onclick="cekGame('g6', 'salah', this)">2 Diagonal Ruang</button>
+    <button class="btn btn-primary m-1" onclick="cekGame('g6', 'benar', this)">4 Diagonal Ruang</button>
+    <button class="btn btn-primary m-1" onclick="cekGame('g6', 'salah', this)">8 Diagonal Ruang</button>
+    <div id="game-g6" class="mt-2 fw-bold"></div>
+  </div>
+
+  <!-- Soal 7 -->
+  <div class="geo-box mb-4">
+    <h5 class="text-warning">7. Dari sebuah balok, sisi yang berhadapan dengan sisi ABCD adalah...</h5>
+    <button class="btn btn-primary m-1" onclick="cekGame('g7', 'salah', this)">ABFE</button>
+    <button class="btn btn-primary m-1" onclick="cekGame('g7', 'benar', this)">EFGH</button>
+    <button class="btn btn-primary m-1" onclick="cekGame('g7', 'salah', this)">BCFG</button>
+    <div id="game-g7" class="mt-2 fw-bold"></div>
+  </div>
 
 </div>
 </section>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
-/* LOGIN */
-let user = localStorage.getItem("login");
-if(!user) location.href="login.html";
-document.getElementById("nama").innerText=user;
+function openTab(btn, id){
+    document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
+    document.querySelectorAll('.tab-menu button').forEach(b=>b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+}
 
-function logout(){
-  localStorage.removeItem("login");
-  location.href="login.html";
+function cekEksplorasi(idTarget, kunci, elemen) {
+    let res = document.getElementById('res-' + idTarget);
+    if(elemen.innerText.trim() == kunci) {
+        res.innerHTML = "<span class='text-success'>✅ Keren! Jawabanmu benar.</span>";
+    } else {
+        res.innerHTML = "<span class='text-danger'>❌ Yah, salah. Coba lihat visualnya lagi!</span>";
+    }
+}
+
+function cekGame(id, status, elemen) {
+    let res = document.getElementById('game-' + id);
+    if(status === 'benar') {
+        res.innerHTML = "<span class='text-success'>🌟 MANTAP! Logikamu berjalan baik.</span>";
+    } else {
+        res.innerHTML = "<span class='text-danger'>☁️ Kurang tepat. Pikirkan lagi ya!</span>";
+    }
 }
 </script>
-
 </body>
 </html>
