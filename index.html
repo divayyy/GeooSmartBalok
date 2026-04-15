@@ -33,13 +33,12 @@
             text-align: center;
         }
 
-        /* Styling Logo */
         .logo-box {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         
         .logo-img {
-            max-width: 70px;
+            max-width: 80px;
             height: auto;
             filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.6));
         }
@@ -50,15 +49,16 @@
             font-size: 2.2rem;
             margin-bottom: 35px;
             letter-spacing: -1px;
+            /* Gradient tetap dipasang di sini sebagai default */
             background: linear-gradient(180deg, #FFFFFF 0%, #38bdf8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            background-clip: text;
+            display: block;
         }
 
-        /* Styling Input - Disesuaikan dengan gambar */
         .form-control {
-            background: rgba(226, 232, 240, 0.9) !important; /* Warna agak kebiruan terang seperti di gambar */
+            background: rgba(226, 232, 240, 0.9) !important;
             border: none;
             color: #1e293b !important;
             border-radius: 14px;
@@ -73,11 +73,6 @@
             transform: translateY(-2px);
         }
 
-        .form-control::placeholder {
-            color: #64748b;
-        }
-
-        /* Styling Button */
         .btn-info {
             background: #38bdf8;
             border: none;
@@ -109,18 +104,13 @@
             color: #38bdf8;
             text-decoration: none;
         }
-
-        .switch b:hover {
-            text-decoration: underline;
-        }
     </style>
 </head>
-
 <body>
 
 <div class="auth-card">
     <div class="logo-box">
-        <img src="assets/images/logogeo.png" alt="GeoSMART Logo" class="logo-img">
+        <img src="assets/images/logogeo.png" alt="Logo" class="logo-img">
     </div>
 
     <h3 id="title">GeoSMART</h3>
@@ -128,13 +118,13 @@
     <form id="formLogin" onsubmit="login(event)">
         <input class="form-control mb-3" placeholder="Nama Pengguna" id="user" required>
         <input class="form-control mb-4" placeholder="Password" type="password" id="pass" required>
-        <button class="btn btn-info w-100">MASUK</button>
+        <button type="submit" class="btn btn-info w-100">MASUK</button>
     </form>
 
     <form id="formDaftar" onsubmit="daftar(event)" style="display:none">
         <input class="form-control mb-3" placeholder="Username Baru" id="newUser" required>
         <input class="form-control mb-4" placeholder="Password" type="password" id="newPass" required>
-        <button class="btn btn-info w-100" style="background: #10b981;">DAFTAR SEKARANG</button>
+        <button type="submit" class="btn btn-info w-100" style="background: #10b981; color: white;">DAFTAR SEKARANG</button>
     </form>
 
     <div class="switch" onclick="toggleForm()" id="switchText">
@@ -149,10 +139,16 @@ function toggleForm(){
     let title = document.getElementById("title");
     let switchText = document.getElementById("switchText");
 
+    // Re-apply style gradient agar tidak hilang saat text berubah
+    const applyGradient = () => {
+        title.style.background = "linear-gradient(180deg, #FFFFFF 0%, #38bdf8 100%)";
+        title.style.webkitBackgroundClip = "text";
+        title.style.webkitTextFillColor = "transparent";
+    };
+
     if(login.style.display == "none"){
         login.style.display = "block";
         daftar.style.display = "none";
-        title.style.background = "linear-gradient(180deg, #FFFFFF 0%, #38bdf8 100%)";
         title.innerText = "GeoSMART";
         switchText.innerHTML = "Belum punya akun? <b>Daftar</b>";
     } else {
@@ -161,6 +157,7 @@ function toggleForm(){
         title.innerText = "DAFTAR";
         switchText.innerHTML = "Sudah punya akun? <b>Login</b>";
     }
+    applyGradient();
 }
 
 function daftar(e){
@@ -184,6 +181,7 @@ function login(e){
     }
 
     localStorage.setItem("login", u);
+    alert("Selamat datang, " + u + "!");
     location.href = "dashboard.html";
 }
 </script>
