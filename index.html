@@ -43,13 +43,11 @@
             filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.6));
         }
 
-        /* PERBAIKAN TULISAN GeoSMART */
         .auth-card h3 {
             font-weight: 800;
             font-size: 2.2rem;
-            margin-bottom: 35px;
+            margin-bottom: 10px;
             letter-spacing: -1px;
-            /* Gradient tetap dipasang di sini sebagai default */
             background: linear-gradient(180deg, #FFFFFF 0%, #38bdf8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -57,14 +55,22 @@
             display: block;
         }
 
+        .subtitle {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 35px;
+        }
+
         .form-control {
             background: rgba(226, 232, 240, 0.9) !important;
             border: none;
             color: #1e293b !important;
             border-radius: 14px;
-            padding: 14px 18px;
+            padding: 16px 18px;
             font-weight: 600;
             transition: all 0.3s ease;
+            text-align: center;
+            font-size: 1.1rem;
         }
 
         .form-control:focus {
@@ -77,7 +83,7 @@
             background: #38bdf8;
             border: none;
             color: #0f172a;
-            padding: 14px;
+            padding: 16px;
             border-radius: 14px;
             font-weight: 800;
             font-size: 1rem;
@@ -92,18 +98,6 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3);
         }
-
-        .switch {
-            margin-top: 30px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            color: #94a3b8;
-        }
-
-        .switch b {
-            color: #38bdf8;
-            text-decoration: none;
-        }
     </style>
 </head>
 <body>
@@ -113,75 +107,29 @@
         <img src="assets/images/logogeo.png" alt="Logo" class="logo-img">
     </div>
 
-    <h3 id="title">GeoSMART</h3>
+    <h3>GeoSMART</h3>
+    <p class="subtitle">Silakan masukkan nama Kamu</p>
 
-    <form id="formLogin" onsubmit="login(event)">
-        <input class="form-control mb-3" placeholder="Nama Pengguna" id="user" required>
-        <input class="form-control mb-4" placeholder="Password" type="password" id="pass" required>
-        <button type="submit" class="btn btn-info w-100">MASUK</button>
+    <form onsubmit="mulaiBelajar(event)">
+        <input class="form-control mb-4" placeholder="masukkan nama anda" id="userName" required autocomplete="off">
+        <button type="submit" class="btn btn-info w-100">MULAI BELAJAR</button>
     </form>
-
-    <form id="formDaftar" onsubmit="daftar(event)" style="display:none">
-        <input class="form-control mb-3" placeholder="Username Baru" id="newUser" required>
-        <input class="form-control mb-4" placeholder="Password" type="password" id="newPass" required>
-        <button type="submit" class="btn btn-info w-100" style="background: #10b981; color: white;">DAFTAR SEKARANG</button>
-    </form>
-
-    <div class="switch" onclick="toggleForm()" id="switchText">
-        Belum punya akun? <b>Daftar</b>
-    </div>
 </div>
 
 <script>
-function toggleForm(){
-    let login = document.getElementById("formLogin");
-    let daftar = document.getElementById("formDaftar");
-    let title = document.getElementById("title");
-    let switchText = document.getElementById("switchText");
-
-    // Re-apply style gradient agar tidak hilang saat text berubah
-    const applyGradient = () => {
-        title.style.background = "linear-gradient(180deg, #FFFFFF 0%, #38bdf8 100%)";
-        title.style.webkitBackgroundClip = "text";
-        title.style.webkitTextFillColor = "transparent";
-    };
-
-    if(login.style.display == "none"){
-        login.style.display = "block";
-        daftar.style.display = "none";
-        title.innerText = "GeoSMART";
-        switchText.innerHTML = "Belum punya akun? <b>Daftar</b>";
-    } else {
-        login.style.display = "none";
-        daftar.style.display = "block";
-        title.innerText = "DAFTAR";
-        switchText.innerHTML = "Sudah punya akun? <b>Login</b>";
-    }
-    applyGradient();
-}
-
-function daftar(e){
+function mulaiBelajar(e){
     e.preventDefault();
-    let u = document.getElementById("newUser").value;
-    let p = document.getElementById("newPass").value;
-    localStorage.setItem("akun", JSON.stringify({user:u, pass:p}));
-    alert("Pendaftaran berhasil! Silakan login.");
-    toggleForm();
-}
+    let nama = document.getElementById("userName").value;
 
-function login(e){
-    e.preventDefault();
-    let u = document.getElementById("user").value;
-    let p = document.getElementById("pass").value;
-    let akun = JSON.parse(localStorage.getItem("akun"));
-
-    if(!akun || akun.user !== u || akun.pass !== p){
-        alert("Nama pengguna atau password salah!");
+    if(nama.trim().length < 2) {
+        alert("Harap masukkan nama yang valid ya!");
         return;
     }
 
-    localStorage.setItem("login", u);
-    alert("Selamat datang, " + u + "!");
+    // Simpan nama di localStorage agar bisa dipanggil di Dashboard
+    localStorage.setItem("login", nama);
+    
+    // Langsung pindah ke halaman utama
     location.href = "dashboard.html";
 }
 </script>
