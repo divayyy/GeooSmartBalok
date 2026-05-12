@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | GeoSMART</title>
 
+    <!-- Bootstrap & FontAwesome -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -34,7 +35,7 @@
             height: auto;
         }
 
-        /* DROPDOWN CUSTOM STYLE */
+        /* USER PROFILE DROPDOWN */
         .user-profile {
             width: 45px;
             height: 45px;
@@ -54,10 +55,7 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
-        /* Menghilangkan panah default bootstrap */
-        .dropdown-toggle::after {
-            display: none;
-        }
+        .dropdown-toggle::after { display: none; }
 
         .dropdown-menu {
             background: white;
@@ -80,10 +78,6 @@
             cursor: default;
         }
 
-        .dropdown-item.greeting:hover {
-            background: transparent;
-        }
-
         .dropdown-item.logout {
             color: #ff4d4d;
             font-weight: 600;
@@ -98,6 +92,7 @@
         .hero-section {
             padding: 40px 60px;
             text-align: center;
+            flex-grow: 1;
         }
 
         .hello-tag {
@@ -148,7 +143,6 @@
             width: 300px;
             text-align: center;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
         }
 
         .edu-card:hover {
@@ -170,17 +164,101 @@
         }
 
         .blue-icon { background: #00bfff; color: white; box-shadow: 0 5px 15px rgba(0, 191, 255, 0.4); }
-        .green-icon { background: #32cd32; color: white; box-shadow: 0 5px 15px rgba(50, 205, 50, 0.4); }
+        .orange-icon { background: #f59e0b; color: white; box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4); }
 
         .edu-card h3 { font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; color: white; }
         .edu-card p { font-size: 1rem; color: rgba(255, 255, 255, 0.8); margin: 0; }
+
+    /* ... (Kode CSS bagian atas tetap sama) ... */
+
+    /* --- REVISI BAGIAN MEDIA QUERY --- */
+    @media (max-width: 768px) {
+        body { 
+            overflow-y: auto; 
+            height: auto; 
+            padding-bottom: 50px; 
+        }
+
+        /* Selector disamakan dengan HTML kamu yaitu .hero-section */
+        .hero-section { 
+            padding: 100px 20px 40px !important; 
+        }
+
+        /* Mengatur judul agar mengecil secara efektif */
+        .hero-section h1 { 
+            font-size: 2rem !important; /* Gunakan 2rem agar pas, jangan 0.1rem */
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .hello-tag {
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
+
+        .desc {
+            font-size: 1rem;
+            padding: 0 10px;
+        }
+
+@media (max-width: 768px) {
+    /* ... kode lainnya ... */
+
+    .card-container { 
+        display: grid !important;
+        /* Ini kunci utamanya: repeat(2, 1fr) membuat 2 kolom sama lebar */
+        grid-template-columns: repeat(2, 1fr); 
+        /* align-items: stretch memastikan tinggi kartu kiri & kanan selalu sama */
+        align-items: stretch; 
+        gap: 15px; 
+        padding: 0 15px;
+    }
+
+    .edu-card {
+        width: 100% !important; /* Biarkan grid yang mengatur lebarnya */
+        height: 100%; /* Paksa tinggi penuh sesuai container */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Agar konten tetap di tengah secara vertikal */
+        padding: 30px 10px;
+    }
+
+    /* Tambahkan ini agar teks deskripsi punya ruang yang sama */
+    .edu-card p {
+        min-height: 40px; /* Memberi ruang cadangan agar kartu tidak menclok */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1.2;
+    }
+}
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .edu-card h3 { 
+            font-size: 1.2rem; 
+        }
+
+        .edu-card p { 
+            font-size: 0.7rem; 
+        }
+
+        .navbar {
+            padding: 15px 25px;
+        }
+    }
 
     </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="container-fluid p-0 d-flex justify-content-between align-items: center;">
+        <div class="container-fluid p-0 d-flex justify-content-between align-items-center">
             <img src="assets/images/logogeo.png" alt="Logo GeoSMART" class="logo-img">
             
             <div class="dropdown">
@@ -188,7 +266,7 @@
                     <i class="fa-solid fa-user"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><span class="dropdown-item greeting">Haloo, Student</span></li>
+                    <li><span class="dropdown-item greeting">Halo, Student</span></li>
                     <li><a class="dropdown-item logout" href="logout.html">Logout</a></li>
                 </ul>
             </div>
@@ -201,26 +279,31 @@
         <p class="desc">Jelajahi dunia geometri dengan visualisasi 3D yang interaktif. Pilih materi di bawah untuk mulai belajar.</p>
 
         <div class="card-container">
-            <a href="baloklaptop.html" class="card-link">
+            <!-- Card Balok -->
+            <a href="balokhp.html" class="card-link">
                 <div class="card edu-card">
-                    <div class="icon-box blue-icon"><i class="fa-solid fa-cube"></i></div>
+                    <div class="icon-box blue-icon">
+                        <i class="fa-solid fa-cube"></i>
+                    </div>
                     <h3>Balok</h3>
                     <p>Rusuk • Volume • Jaring</p>
                 </div>
             </a>
 
-            <a href="latihan.html" class="card-link">
-    <div class="card edu-card">
-        <div class="icon-box" style="background:#f59e0b; color:white; box-shadow:0 5px 15px rgba(245,158,11,0.4);">
-            <i class="fa-solid fa-pen-to-square"></i>
-        </div>
-        <h3>Latihan</h3>
-        <p>Soal • Kuis • Evaluasi</p>
-    </div>
-</a>
+            <!-- Card Latihan -->
+            <a href="latihanhp.html" class="card-link">
+                <div class="card edu-card">
+                    <div class="icon-box orange-icon">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </div>
+                    <h3>Latihan</h3>
+                    <p>Soal • Kuis • Evaluasi</p>
+                </div>
+            </a>
         </div>
     </main>
 
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
