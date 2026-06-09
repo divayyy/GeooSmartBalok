@@ -929,9 +929,15 @@ model-viewer {
                 </div>
             </div>
         </div>
-<button class="ai-mini-btn" onclick="bukaModalPrompt('latihan')" id="btn-latihan">
-    <span class="btn-text">✨ Tanya Gemini</span>
-</button>
+<div class="d-flex flex-column gap-2 mt-3" style="max-width: 250px;">
+    <button type="button" class="ai-mini-btn" onclick="salinPromptSaja('latihan')">
+        📋 1. Salin Pertanyaan
+    </button>
+    
+    <a href="https://gemini.google.com" target="_blank" class="ai-mini-btn text-center text-decoration-none bg-success border-success">
+        🚀 2. Buka Gemini
+    </a>
+</div>
     </div>
 
     <!-- DUNIA NYATA -->
@@ -1107,15 +1113,9 @@ model-viewer {
             jawaban.style.display = 'none';
         }
     }
-
-// ================= GLOBAL VARIABLE =================
-let currentPrompt = "";
-
-// ================= FUNGSI UTAMA TOMBOL =================
-function bukaModalPrompt(mode) {
+function salinPromptSaja(mode) {
     let pesan = "";
 
-    // Menyusun prompt berdasarkan mode yang dipilih
     if (mode === "latihan") {
         pesan = `PERAN KAMU: Guru matematika SMP yang sabar.\n\nATURAN WAJIB:\n1. JANGAN PERNAH memberikan jawaban akhir.\n2. HANYA berikan petunjuk (clue) bertahap.\n3. Gunakan pertanyaan pancingan.\n\nSOAL:\nSaya siswa SMP. Berikan 1 soal tentang balok. Jangan langsung beri jawaban, tapi beri petunjuk (clue) langkah demi langkah. Setelah itu baru beri pembahasan lengkap.`;
     } 
@@ -1123,68 +1123,23 @@ function bukaModalPrompt(mode) {
         pesan = `PERAN KAMU: Guru matematika SMP yang sabar.\n\nATURAN WAJIB:\n1. JANGAN PERNAH memberikan jawaban akhir.\n2. HANYA berikan petunjuk (clue) bertahap.\n3. Gunakan pertanyaan pancingan.\n\nSOAL:\nSaya siswa SMP. Jelaskan contoh balok dalam kehidupan sehari-hari dengan cara sederhana. Gunakan contoh nyata yang dikaitkan dengan volume dan luas, lalu beri 1 pertanyaan latihan berpikir.`;
     }
 
-    if (pesan === "") {
-        alert("Mode tidak dikenali!");
-        return;
-    }
-
-    currentPrompt = pesan;
-
-    // Tampilkan teks ke dalam modal dan aktifkan kelas modal
-    const promptContainer = document.getElementById("promptText");
-    if (promptContainer) {
-        promptContainer.textContent = currentPrompt;
-    }
-    
-    const modalElement = document.getElementById("aiModal");
-    if (modalElement) {
-        modalElement.classList.add("active");
-    } else {
-        // Fallback jika elemen modal belum dipasang di HTML file baru
-        jalankanSistemSalin(currentPrompt);
-    }
-}
-
-// ================= PROSES SALIN TEKS AMAN HP =================
-function copyPrompt() {
-    jalankanSistemSalin(currentPrompt);
-}
-
-function jalankanSistemSalin(teks) {
+    // Eksekusi penyalinan teks standar dunia web
     const textarea = document.createElement("textarea");
-    textarea.value = teks;
+    textarea.value = pesan;
     textarea.style.position = "fixed";
     textarea.style.opacity = "0";
-
     document.body.appendChild(textarea);
     textarea.focus();
     textarea.select();
 
     try {
         document.execCommand("copy");
-        alert("✅ Prompt berhasil disalin ke clipboard!");
+        alert("✅ Pertanyaan BERHASIL disalin!\nSekarang klik tombol '2. Buka Gemini' lalu tempel (paste) di sana.");
     } catch (err) {
-        alert("❌ Gagal menyalin secara otomatis. Silakan salin manual teks di dalam kotak.");
+        alert("❌ Gagal menyalin otomatis.");
     }
 
     document.body.removeChild(textarea);
-}
-
-// ================= NAVIGASI AMAN (ANTI CRASH / TERPENTAL) =================
-function openGemini() {
-    // Jalankan fitur auto-copy sekali lagi memastikan teks tersimpan di sistem HP
-    jalankanSistemSalin(currentPrompt);
-
-    // Navigasi internal yang sangat disukai dan didukung 100% oleh semua browser HP
-    window.location.href = "https://gemini.google.com";
-}
-
-// ================= MENUTUP MODAL =================
-function closeModal() {
-    const modalElement = document.getElementById("aiModal");
-    if (modalElement) {
-        modalElement.classList.remove("active");
-    }
 }
 </script>
 
