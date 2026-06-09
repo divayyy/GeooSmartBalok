@@ -1036,7 +1036,158 @@ model-viewer {
     </div>
 
 </div>
+<script>
 
+    // TAB GEOGEBRA FUNCTION (dari file pertama)
+    function openTab(btn, id) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-menu button').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    // TOGGLE JAWABAN SOAL (dari file kedua)
+    function toggleJawaban(card) {
+        const jawaban = card.querySelector('.jawaban-box');
+        if (jawaban.style.display === 'none' || jawaban.style.display === '') {
+            jawaban.style.display = 'block';
+            jawaban.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+            jawaban.style.display = 'none';
+        }
+    }
+
+ // ==========================================
+ // 🔥 SCRIPT BARU: TANYA GEMINI MOBILE FIX
+ // ==========================================
+ function tanyaGemini(mode) {
+    let pesan = "";
+
+    if (mode === "peng_definition") {
+        pesan = `PERAN KAMU: Guru matematika SMP yang sabar.
+ATURAN WAJIB:
+1. Gunakan pertanyaan pancingan.
+2. Jika siswa meminta jawaban langsung, TOLAK dengan sopan.
+3. Bimbing sampai siswa menemukan sendiri.
+
+FORMAT:
+- Langkah kecil
+- Pertanyaan berpikir
+- Jangan beri hasil akhir
+Saya siswa SMP. Jelaskan pengertian TABUNG dengan bahasa sangat sederhana seperti guru. Gunakan contoh benda sehari-hari agar mudah dipahami.`;
+    } 
+    else if (mode === "ciri") {
+        pesan = `PERAN KAMU: Guru matematika SMP yang sabar.
+ATURAN WAJIB:
+1. Gunakan pertanyaan pancingan.
+2. Jika siswa meminta jawaban langsung, TOLAK dengan sopan.
+3. Bimbing sampai siswa menemukan sendiri.
+
+FORMAT:
+- Langkah kecil
+- Pertanyaan berpikir
+- Jangan beri hasil akhir
+Saya siswa SMP. Jelaskan ciri-ciri tabung dengan cara mudah diingat. Gunakan poin-poin sederhana dan contoh benda nyata.`;
+    } 
+    else if (mode === "unsur") {
+        pesan = `PERAN KAMU: Guru matematika SMP yang sabar.
+ATURAN WAJIB:
+1. Gunakan pertanyaan pancingan.
+2. Jika siswa meminta jawaban langsung, TOLAK dengan sopan.
+3. Bimbing sampai siswa menemukan sendiri.
+
+FORMAT:
+- Langkah kecil
+- Pertanyaan berpikir
+- Jangan beri hasil akhir
+Saya siswa SMP. Jelaskan unsur-unsur Tabung (sisi, rusuk, Pengukuran Tabung, Jaring-jaring). Bantu saya membayangkan bentuknya dengan penjelasan sederhana.`;
+    } 
+    else if (mode === "rumus") {
+        pesan = `PERAN KAMU: Guru matematika SMP yang sabar.
+ATURAN WAJIB:
+1. Gunakan pertanyaan pancingan.
+2. Jika siswa meminta jawaban langsung, TOLAK dengan sopan.
+3. Bimbing sampai siswa menemukan sendiri.
+
+FORMAT:
+- Langkah kecil
+- Pertanyaan berpikir
+- Jangan beri hasil akhir
+Saya siswa SMP. Jelaskan rumus Tabung (luas permukaan dan volume) secara pelan-pelan. Berikan: 1. Arti simbol (p, Phi, r, t) 2. Cara menghitung 3. Contoh soal 4. Pembahasan bertahap`;
+    } 
+    else if (mode === "latihan") {
+        pesan = `PERAN KAMU: Guru matematika SMP yang sabar.
+ATURAN WAJIB:
+1. Gunakan pertanyaan pancingan.
+2. Jika siswa meminta jawaban langsung, TOLAK dengan sopan.
+3. Bimbing sampai siswa menemukan sendiri.
+
+FORMAT:
+- Langkah kecil
+- Pertanyaan berpikir
+- Jangan beri hasil akhir
+Saya siswa SMP. Berikan 1 soal tentang Tabung. Jangan langsung beri jawaban, tapi beri petunjuk (clue) langkah demi langkah. Setelah itu baru beri pembahasan lengkap.`;
+    } 
+    else if (mode === "dunia") {
+        pesan = `PERAN KAMU: Guru matematika SMP yang sabar.
+ATURAN WAJIB:
+1. Gunakan pertanyaan pancingan.
+2. Jika siswa meminta jawaban langsung, TOLAK dengan sopan.
+3. Bimbing sampai siswa menemukan sendiri.
+
+FORMAT:
+- Langkah kecil
+- Pertanyaan berpikir
+- Jangan beri hasil akhir
+Saya siswa SMP. Jelaskan contoh Tabung dalam kehidupan sehari-hari dengan cara sederhana. Gunakan: - contoh nyata - penjelasan mudah dipahami - kaitkan dengan volume dan luas - beri 1 pertanyaan latihan`;
+    } else {
+        // Default catch
+        pesan = `PERAN KAMU: Guru matematika SMP yang sabar.
+ATURAN WAJIB:
+1. Gunakan pertanyaan pancingan.
+2. Jika siswa meminta jawaban langsung, TOLAK dengan sopan.
+3. Bimbing sampai siswa menemukan sendiri.
+
+FORMAT:
+- Langkah kecil
+- Pertanyaan berpikir
+- Jangan beri hasil akhir
+Saya siswa SMP. Jelaskan contoh Tabung dalam kehidupan sehari-hari dengan cara sederhana. Gunakan: - contoh nyata - penjelasan mudah dipahami - kaitkan dengan volume dan luas - beri 1 pertanyaan latihan`;
+    }
+
+    // 1. Coba Copy ke Clipboard
+    navigator.clipboard.writeText(pesan).then(() => {
+        console.log('✅ Teks berhasil dicopy!');
+        // Tampilkan toast sukses (jika fungsi toast ada)
+        // showToast("✅ Teks Dicopy!"); 
+    }).catch(err => {
+        console.log('⚠️ Gagal copy otomatis', err);
+    });
+
+    // 2. Deteksi HP
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    // 3. Tentukan Link Gemini
+    // Kami menggunakan link dasar agar tidak error/redirect aneh di HP
+    let linkGemini = "";
+    
+    if (isMobile) {
+        // Versi HP: Langsung ke halaman utama
+        // Mengirim langsung ke /app sering redirect dan gagal di browser biasa
+        linkGemini = "https://gemini.google.com";
+        
+        // memberitahu user agar paste
+        alert("✅ Pertanyaan sudah DI-COPY!\n\nBuka Gemini lalu tekan Ctrl+V (atau Tekan Pilih - Paste) untuk bertanya.");
+    } else {
+        // Versi Desktop/Laptop
+        linkGemini = "https://gemini.google.com/search?q=" + encodeURIComponent(pesan);
+    }
+
+    // 4. Buka Jendela Baru
+    window.open(linkGemini, '_blank');
+ }
+
+</script>
 <script>
     // TAB GEOGEBRA FUNCTION (dari file pertama)
     function openTab(btn, id) {

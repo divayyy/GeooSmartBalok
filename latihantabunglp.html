@@ -73,39 +73,6 @@
 
     <h2 class="section-title">🥤 Koleksi Soal Tabung</h2>
 
-    <div class="soal">
-        <p><b>Soal 1: Volume Kaleng</b><br>
-        Sebuah kaleng susu berbentuk tabung memiliki jari-jari 7 cm dan tinggi 10 cm. Berapakah volume kaleng tersebut? (Gunakan π ≈ 22/7).</p>
-        <button class="btn-ai" onclick="tanyaAI(this)">Tanya AI Gemini</button>
-    </div>
-
-    <div class="soal">
-        <p><b>Soal 2: Luas Selimut</b><br>
-        Sebuah pipa air berbentuk tabung memiliki panjang (tinggi) 2 meter dan diameter 20 cm. Berapakah luas permukaan selimut pipa tersebut?</p>
-        <button class="btn-ai" onclick="tanyaAI(this)">Tanya AI Gemini</button>
-    </div>
-
-    <div class="soal">
-        <p><b>Soal 3: Konversi Kapasitas</b><br>
-        Sebuah tangki air berbentuk tabung dengan diameter 1,4 meter dan tinggi 2 meter. Jika tangki diisi penuh, berapa liter air yang tertampung? (1 m³ = 1.000 liter).</p>
-        <button class="btn-ai" onclick="tanyaAI(this)">Tanya AI Gemini</button>
-    </div>
-
-    <div class="soal">
-        <p><b>Soal 4: Mencari Tinggi</b><br>
-        Sebuah wadah berbentuk tabung memiliki volume 1.540 cm³ dan jari-jari alas 7 cm. Berapakah tinggi wadah tersebut?</p>
-        <button class="btn-ai" onclick="tanyaAI(this)">Tanya AI Gemini</button>
-    </div>
-
-    <div class="soal">
-        <p><b>Soal 5: Luas Permukaan Tanpa Tutup</b><br>
-        Sebuah ember berbentuk tabung tanpa tutup memiliki jari-jari 14 cm dan tinggi 30 cm. Berapakah luas bahan plastik yang dibutuhkan untuk membuat ember tersebut?</p>
-        <button class="btn-ai" onclick="tanyaAI(this)">Tanya AI Gemini</button>
-    </div>
-<style>
-    .text-biru { color: #38bdf8; font-weight: bold; }
-</style>
-
 <div class="soal">
     <p class="text-biru">Soal 1: Volume Kaleng</p>
     <p>Sebuah kaleng susu berbentuk tabung memiliki jari-jari 7 cm dan tinggi 10 cm. Berapakah volume kaleng tersebut? (Gunakan π ≈ 22/7).</p>
@@ -168,16 +135,107 @@
     <div id="aiModal" class="ai-modal">
         </div>
 </div>
-
 <script>
-    // Gunakan fungsi JavaScript yang sama dengan yang sudah Anda miliki
-    function tanyaAI(btn) {
-        const soal = btn.parentElement.querySelector('p').innerText;
-        currentPrompt = `Kamu adalah AI guru GeoSMART.\n\nTugas:\n- Beri PETUNJUK (clue) langkah demi langkah untuk soal tabung ini.\n- Jangan beri jawaban langsung.\n\nSoal:\n${soal}`;
-        document.getElementById('promptText').textContent = currentPrompt;
-        document.getElementById('aiModal').classList.add('active');
+// ================= GLOBAL =================
+let currentPrompt = "";
+
+// ================= TANYA AI =================
+function tanyaAI(btn) {
+    const soal = btn.parentElement.querySelector("p").innerText;
+
+    // 🔒 SYSTEM PROMPT (ANTI JAWABAN LANGSUNG)
+    const aturan = `PERAN KAMU: Guru matematika SMP yang sabar.
+
+ATURAN WAJIB:
+1. JANGAN PERNAH memberikan jawaban akhir.
+2. HANYA berikan petunjuk (clue) bertahap.
+3. Gunakan pertanyaan pancingan.
+4. Jika siswa meminta jawaban langsung, TOLAK dengan sopan.
+5. Bimbing sampai siswa menemukan sendiri.
+
+FORMAT:
+- Langkah kecil
+- Pertanyaan berpikir
+- Jangan beri hasil akhir
+`;
+
+    // 🔥 PROMPT FINAL
+    currentPrompt = aturan + "\n\nSOAL:\n" + soal;
+
+    // tampilkan ke modal
+    document.getElementById("promptText").textContent = currentPrompt;
+    document.getElementById("aiModal").classList.add("active");
+}
+
+// ================= COPY =================
+function copyPrompt() {
+    const text = currentPrompt;
+
+    // metode aman semua HP
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+
+    try {
+        document.execCommand("copy");
+        alert("✅ Prompt berhasil disalin!");
+    } catch (err) {
+        alert("❌ Gagal menyalin. Silakan copy manual.");
     }
-    // ... (fungsi lainnya)
+
+    document.body.removeChild(textarea);
+}
+
+// ================= OPEN GEMINI =================
+function openGemini() {
+    const text = currentPrompt;
+
+    // auto copy dulu
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+
+    try {
+        document.execCommand("copy");
+        alert("📋 Prompt sudah disalin!\nTempel di Gemini ya 👍");
+    } catch (err) {
+        alert("❌ Gagal auto copy.\nSilakan salin manual.");
+    }
+
+    document.body.removeChild(textarea);
+
+    // buka Gemini (AMAN HP)
+    window.location.href = "https://gemini.google.com";
+}
+
+// ================= MODAL =================
+function closeModal() {
+    document.getElementById("aiModal").classList.remove("active");
+}
+
+// ================= UX HP TOUCH =================
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".copy-btn, .btn-ai").forEach(btn => {
+        btn.addEventListener("touchstart", () => {
+            btn.style.opacity = "0.6";
+        });
+        btn.addEventListener("touchend", () => {
+            btn.style.opacity = "1";
+        });
+    });
+});
+</script>
+
 </script>
 </body>
 </html>
