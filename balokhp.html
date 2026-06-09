@@ -929,10 +929,13 @@ model-viewer {
                 </div>
             </div>
         </div>
-<button class="ai-mini-btn" onclick="tanyaGemini('latihan')" id="btn-pengertian">
+<a href="https://gemini.google.com/app?q=Saya%20siswa%20SMP.%20Berikan%201%20soal%20tentang%20balok.%20Jangan%20langsung%20beri%20jawaban%2C%20tapi%20beri%20petunjuk%20(clue)%20langkah%20demi%20langkah.%20Setelah%20itu%20baru%20beri%20pembahasan%20lengkap." 
+   target="_blank" 
+   class="ai-mini-btn text-decoration-none d-inline-block" 
+   onclick="salinPrompt('latihan')"
+   id="btn-latihan">
     <span class="btn-text">✨ Tanya Gemini</span>
-    <span class="btn-loading" style="display:none;">⏳ Loading...</span>
-</button>
+</a>
     </div>
 
     <!-- DUNIA NYATA -->
@@ -1109,65 +1112,29 @@ model-viewer {
         }
     }
 
-function tanyaGemini(mode) {
+function salinPrompt(mode) {
     let pesan = "";
 
-    if (mode === "pengertian") {
-        pesan = `Saya siswa SMP. Jelaskan pengertian balok dengan bahasa sangat sederhana seperti guru. Gunakan contoh benda sehari-hari agar mudah dipahami.`;
-    } 
-    else if (mode === "ciri") {
-        pesan = `Saya siswa SMP. Jelaskan ciri-ciri balok dengan cara mudah diingat. Gunakan poin-poin sederhana dan contoh benda nyata.`;
-    } 
-    else if (mode === "unsur") {
-        pesan = `Saya siswa SMP. Jelaskan unsur-unsur balok (sisi, rusuk, sudut, diagonal). Bantu saya membayangkan bentuknya dengan penjelasan sederhana.`;
-    } 
-    else if (mode === "rumus") {
-        pesan = `Saya siswa SMP. Jelaskan rumus balok (luas permukaan dan volume) secara pelan-pelan. Berikan: 1. Arti simbol (p, l, t) 2. Cara menghitung 3. Contoh soal 4. Pembahasan bertahap`;
-    } 
-    else if (mode === "latihan") {
+    if (mode === "latihan") {
         pesan = `Saya siswa SMP. Berikan 1 soal tentang balok. Jangan langsung beri jawaban, tapi beri petunjuk (clue) langkah demi langkah. Setelah itu baru beri pembahasan lengkap.`;
     } 
     else if (mode === "dunia") {
         pesan = `Saya siswa SMP. Jelaskan contoh balok dalam kehidupan sehari-hari dengan cara sederhana. Gunakan: - contoh nyata - penjelasan mudah dipahami - kaitkan dengan volume dan luas - beri 1 pertanyaan latihan`;
     }
 
-    if (pesan === "") {
-        alert("Mode tidak dikenali!");
-        return;
-    }
-
-    // URL Gemini dengan query parameter prompt
-    const geminiUrl = `https://gemini.google.com/app?q=${encodeURIComponent(pesan)}`;
-
-    // ✅ PROSES COPY KE CLIPBOARD
-    navigator.clipboard.writeText(pesan).then(() => {
-        console.log('✅ Teks berhasil dicopy!');
-    }).catch(err => {
-        console.log('❌ Gagal copy:', err);
-        // Fallback jika API clipboard gagal
+    if (pesan !== "") {
+        // Proses copy kilat menggunakan metode fallback agar langsung tereksekusi sebelum tab berpindah
         const el = document.createElement('textarea');
         el.value = pesan;
+        el.setAttribute('readonly', '');
+        el.style.position = 'absolute';
+        el.style.left = '-9999px';
         document.body.appendChild(el);
         el.select();
         document.execCommand('copy');
         document.body.removeChild(el);
-    });
-
-    // ✅ BUKA GEMINI - JAUH LEBIH AMAN UNTUK MOBILE
-    // Gunakan window.open(url, '_blank') murni tanpa parameter tambahan agar tidak diblokir HP
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    if (isMobile) {
-        // Langsung buka tanpa opsi window tambahan agar lolos pop-up blocker HP
-        window.open(geminiUrl, '_blank');
         
-        // Tampilkan informasi sukses setelah tab berpindah
-        setTimeout(() => {
-            alert('✨ Pertanyaan otomatis disalin!\nSilakan tempel (paste) di kolom chat Gemini jika belum terisi otomatis.');
-        }, 800);
-    } else {
-        // Desktop
-        window.open(geminiUrl, '_blank');
+        console.log('Prompt berhasil disalin ke clipboard!');
     }
 }
 </script>
