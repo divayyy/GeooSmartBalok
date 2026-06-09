@@ -929,16 +929,10 @@ model-viewer {
                 </div>
             </div>
         </div>
-<div class="d-flex flex-column gap-2 mt-3" style="max-width: 250px;">
-    <button type="button" class="ai-mini-btn" onclick="salinPromptSaja('latihan')">
-        📋 1. Salin Pertanyaan
-    </button>
-    
-    <a href="https://gemini.google.com" class="ai-mini-btn text-center text-decoration-none bg-success border-success">
-        🚀 2. Buka Gemini
-    </a>
-</div>
-</div>
+<button class="ai-mini-btn" onclick="tanyaGemini('latihan')" id="btn-pengertian">
+    <span class="btn-text">✨ Tanya Gemini</span>
+    <span class="btn-loading" style="display:none;">⏳ Loading...</span>
+</button>
     </div>
 
     <!-- DUNIA NYATA -->
@@ -1096,6 +1090,7 @@ model-viewer {
 </div>
 
 <script>
+
     // TAB GEOGEBRA FUNCTION (dari file pertama)
     function openTab(btn, id) {
         document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -1114,34 +1109,67 @@ model-viewer {
             jawaban.style.display = 'none';
         }
     }
-function salinPromptSaja(mode) {
+
+ // ==========================================
+ // 🔥 SCRIPT BARU: TANYA GEMINI MOBILE FIX
+ // ==========================================
+ function tanyaGemini(mode) {
     let pesan = "";
 
-    if (mode === "latihan") {
-        pesan = `PERAN KAMU: Guru matematika SMP yang sabar.\n\nATURAN WAJIB:\n1. JANGAN PERNAH memberikan jawaban akhir.\n2. HANYA berikan petunjuk (clue) bertahap.\n3. Gunakan pertanyaan pancingan.\n\nSOAL:\nSaya siswa SMP. Berikan 1 soal tentang balok. Jangan langsung beri jawaban, tapi beri petunjuk (clue) langkah demi langkah. Setelah itu baru beri pembahasan lengkap.`;
+    if (mode === "peng_definition") {
+        pesan = `Buat saya mengerti apa itu Balok dalam matematika.`;
+    } 
+    else if (mode === "ciri") {
+        pesan = `Sebutkan ciri-ciri atau sifat-sifat balok dengan三点.`;
+    } 
+    else if (mode === "unsur") {
+        pesan = `Jelaskan unsur-unsur balok (sisi, rusuk, sudut, diagonal bidang, diagonal ruang).`;
+    } 
+    else if (mode === "rumus") {
+        pesan = `Jelaskan rumus volumenya dan luas permukaannya.`;
+    } 
+    else if (mode === "latihan") {
+        pesan = `Buatkan 1 contoh soal volume balok untuk SD/SMP.`;
     } 
     else if (mode === "dunia") {
-        pesan = `PERAN KAMU: Guru matematika SMP yang sabar.\n\nATURAN WAJIB:\n1. JANGAN PERNAH memberikan jawaban akhir.\n2. HANYA berikan petunjuk (clue) bertahap.\n3. Gunakan pertanyaan pancingan.\n\nSOAL:\nSaya siswa SMP. Jelaskan contoh balok dalam kehidupan sehari-hari dengan cara sederhana. Gunakan contoh nyata yang dikaitkan dengan volume dan luas, lalu beri 1 pertanyaan latihan berpikir.`;
+        pesan = `Berikan contoh penerapan balok dalam kehidupan sehari-hari.`;
+    } else {
+        // Default catch
+        pesan = `Jelaskan tentang Balok dalam matematika.`;
     }
 
-    // Eksekusi penyalinan teks standar dunia web
-    const textarea = document.createElement("textarea");
-    textarea.value = pesan;
-    textarea.style.position = "fixed";
-    textarea.style.opacity = "0";
-    document.body.appendChild(textarea);
-    textarea.focus();
-    textarea.select();
+    // 1. Coba Copy ke Clipboard
+    navigator.clipboard.writeText(pesan).then(() => {
+        console.log('✅ Teks berhasil dicopy!');
+        // Tampilkan toast sukses (jika fungsi toast ada)
+        // showToast("✅ Teks Dicopy!"); 
+    }).catch(err => {
+        console.log('⚠️ Gagal copy otomatis', err);
+    });
 
-    try {
-        document.execCommand("copy");
-        alert("✅ Pertanyaan BERHASIL disalin!\nSekarang klik tombol '2. Buka Gemini' lalu tempel (paste) di sana.");
-    } catch (err) {
-        alert("❌ Gagal menyalin otomatis.");
+    // 2. Deteksi HP
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    // 3. Tentukan Link Gemini
+    // Kami menggunakan link dasar agar tidak error/redirect aneh di HP
+    let linkGemini = "";
+    
+    if (isMobile) {
+        // Versi HP: Langsung ke halaman utama
+        // Mengirim langsung ke /app sering redirect dan gagal di browser biasa
+        linkGemini = "https://gemini.google.com";
+        
+        // memberitahu user agar paste
+        alert("✅ Pertanyaan sudah DI-COPY!\n\nBuka Gemini lalu tekan Ctrl+V (atau Tekan Pilih - Paste) untuk bertanya.");
+    } else {
+        // Versi Desktop/Laptop
+        linkGemini = "https://gemini.google.com/search?q=" + encodeURIComponent(pesan);
     }
 
-    document.body.removeChild(textarea);
-}
+    // 4. Buka Jendela Baru
+    window.open(linkGemini, '_blank');
+ }
+
 </script>
 
 </body>
