@@ -1109,7 +1109,7 @@ model-viewer {
         }
     }
 
- function tanyaGemini(mode) {
+function tanyaGemini(mode) {
     let pesan = "";
 
     if (mode === "pengertian") {
@@ -1136,30 +1136,37 @@ model-viewer {
         return;
     }
 
-    // ✅ COPY KE CLIPBOARD
+    // URL Gemini dengan query parameter prompt
+    const geminiUrl = `https://gemini.google.com/app?q=${encodeURIComponent(pesan)}`;
+
+    // ✅ PROSES COPY KE CLIPBOARD
     navigator.clipboard.writeText(pesan).then(() => {
         console.log('✅ Teks berhasil dicopy!');
     }).catch(err => {
         console.log('❌ Gagal copy:', err);
-        // Fallback: tampilkan alert dengan teks
-        alert('Copy manual: ' + pesan);
+        // Fallback jika API clipboard gagal
+        const el = document.createElement('textarea');
+        el.value = pesan;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
     });
 
-    // ✅ BUKA GEMINI - MOBILE FRIENDLY
+    // ✅ BUKA GEMINI - JAUH LEBIH AMAN UNTUK MOBILE
+    // Gunakan window.open(url, '_blank') murni tanpa parameter tambahan agar tidak diblokir HP
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     
     if (isMobile) {
-        // HP: Langsung buka Gemini app/web
-        const geminiUrl = `https://gemini.google.com/app?q=${encodeURIComponent(pesan)}`;
-        window.open(geminiUrl, '_blank', 'noopener,noreferrer');
+        // Langsung buka tanpa opsi window tambahan agar lolos pop-up blocker HP
+        window.open(geminiUrl, '_blank');
         
-        // Tampilkan notifikasi sukses
+        // Tampilkan informasi sukses setelah tab berpindah
         setTimeout(() => {
-            alert('✅ Teks sudah dicopy!\n📱 Buka Gemini dan paste (Ctrl+V)');
-        }, 500);
+            alert('✨ Pertanyaan otomatis disalin!\nSilakan tempel (paste) di kolom chat Gemini jika belum terisi otomatis.');
+        }, 800);
     } else {
-        // Desktop: buka langsung
-        const geminiUrl = `https://gemini.google.com/app?q=${encodeURIComponent(pesan)}`;
+        // Desktop
         window.open(geminiUrl, '_blank');
     }
 }
